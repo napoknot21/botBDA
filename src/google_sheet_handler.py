@@ -26,9 +26,9 @@ class GoogleSheetsHandler :
 
         credentials = None
 
-        if os.path.exists("token.json") :
+        if os.path.exists("credentials/token.json") :
 
-            credentials = Credentials.from_authorized_user_file ("token.json", self.SCOPES)
+            credentials = Credentials.from_authorized_user_file ("credentials/token.json", self.SCOPES)
 
         if not credentials or not credentials.valid :
             
@@ -38,10 +38,10 @@ class GoogleSheetsHandler :
 
             else :
 
-                flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
+                flow = InstalledAppFlow.from_client_secrets_file("credentials/google_sheets_credentials.json", self.SCOPES)
                 credentials = flow.run_local_server(port=0)
 
-            with open ("token.json", "w") as token : 
+            with open ("credentials/token.json", "w") as token : 
 
                 token.write(credentials.to_json())
 
