@@ -14,10 +14,9 @@ class GoogleSheetsHandler :
     SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 
-    def __init__ (self, spreadsheet_id, range_name) :
+    def __init__ (self, spreadsheet_id) :
         
         self.spreadsheet_id = spreadsheet_id
-        self.range_name = range_name
         self.credentials = self.authenticate_google_sheets()
 
 
@@ -49,13 +48,13 @@ class GoogleSheetsHandler :
 
 
 
-    def get_sheet_data (self) :
+    def get_sheet_data (self, sheet_name, range_name) :
         
         try :
 
             service = build("sheets", "v4", credentials=self.credentials)
             sheet = service.spreadsheets()
-            result = sheet.values().get(spreadsheetId=self.spreadsheet_id, range=self.range_name).execute()
+            result = sheet.values().get(spreadsheetId=self.spreadsheet_id, range=f"{sheet_name}!{range_name}").execute()
             values = result.get("values", [])
 
             return values
